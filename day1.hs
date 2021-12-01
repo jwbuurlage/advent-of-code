@@ -1,19 +1,17 @@
-numIncreasing' :: [Int] -> Int
-numIncreasing' (x:xs) = length $ filter (\(a,b) -> a > b) (zip xs (x:xs))
-numIncreasing' _ = 0;
+numIncreasing :: [Int] -> Int
+numIncreasing xs = length . filter (uncurry (>)) $ zip xs (drop 1 xs)
 
-windows :: [Int] -> [Int]
-windows (x:y:zs) = (\(a,b,c) -> a + b + c) <$> zip3 (x:y:zs) (y:zs) (zs)
-windows _ = []
+slidingWindows :: [Int] -> [Int]
+slidingWindows xs = (\(a, b, c) -> a + b + c) <$> zip3 xs (drop 1 xs) (drop 2 xs)
 
 parseInput :: String -> [Int]
-parseInput = (fmap read) . lines
+parseInput = fmap read . lines
 
 main :: IO ()
 main = do
-  a <- parseInput <$> (readFile "day1a.txt")
-  b <- parseInput <$> (readFile "day1b.txt")
-  print $ numIncreasing' a
-  print $ numIncreasing' b
-  print $ numIncreasing' . windows $ a
-  print $ numIncreasing' . windows $ b
+  a <- parseInput <$> readFile "day1a.txt"
+  b <- parseInput <$> readFile "day1b.txt"
+  print $ numIncreasing a
+  print $ numIncreasing b
+  print $ numIncreasing . slidingWindows $ a
+  print $ numIncreasing . slidingWindows $ b
