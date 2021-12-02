@@ -22,7 +22,7 @@ parseInput :: String -> [(String, Int)]
 parseInput = fmap (mapRight read . pairify . words) . lines
   where
     pairify (x : y : xs) = (x, y)
-    pairify _ = undefined
+    pairify _            = undefined
     mapRight f (x, y) = (x, f y)
 
 main :: IO ()
