@@ -1,4 +1,4 @@
-import Data.List (transpose)
+import           Data.List (transpose)
 
 common :: [String] -> String
 common xs = fmap mostCommon (transpose xs)
@@ -37,7 +37,7 @@ findRating xss matcher = go xss 0
 solveB xs = binaryToNumber generator * binaryToNumber scrubber
   where
     generator = findRating xs common
-    scrubber = findRating xs (flipBitstring .common)
+    scrubber = findRating xs (flipBitstring . common)
 
 parseInput :: String -> [String]
 parseInput = lines
