@@ -50,7 +50,7 @@ solveB numbers boards = go numbers (fmap constructState boards) [] Nothing
     go (x:xs) states seen lastFinished = case anyFinished states of
       Just y ->
         if length states == 1 then
-          head seen * (sum $ sum <$> (filter (\z -> not (z `elem` seen)) <$> (getCols $ head states)))
+          head seen * (sum $ sum <$> (filter (\z -> not (z `elem` seen))) <$> (getCols $ head states))
         else
            go xs (update x <$> (filter (not . finished) states)) (x:seen) (Just (boards !! y))
       Nothing -> go xs (update x <$> states) (x:seen) lastFinished
