@@ -10,7 +10,7 @@ fromDigits = foldl addDigit 0 where addDigit num d = 10*num + d
 
 s = ["abcefg", "cf", "acdeg", "acdfg", "bcdf", "abdfg", "abdefg", "acf", "abcdefg", "abcdfg"]
 si = fmap (\x -> fromJust $ elemIndex x ['a'..'g']) <$> s
-t mapping = sort <$> fmap (mapping !!) <$> si
+t mapping = sort . fmap (mapping !!) <$> si
 
 -- Mapping from original to scrambled
 testValidity signals mapping = length (filter (`elem` signals) (t mapping)) == length signals
@@ -44,7 +44,5 @@ main :: IO ()
 main = do
   linesA <- parseInput <$> readFile "day8a.txt"
   linesB <- parseInput <$> readFile "day8b.txt"
-  example <- parseInput <$> readFile "day8c.txt"
-  -- print $ solveB example
   print $ solveB linesA
   print $ solveB linesB
