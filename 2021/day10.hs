@@ -33,7 +33,7 @@ fix xs = go xs []
 
 solveA lines = sum $ corrupt <$> lines
 
-solveB lines = scores !! div (length scores) 2
+solveB lines = scores !! length scores `div` 2
   where
     valid = filter (\xs -> corrupt xs == 0) lines
     scores = sort $ score . fix <$> valid
