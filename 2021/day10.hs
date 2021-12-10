@@ -37,7 +37,7 @@ solveB lines = scores !! div (length scores) 2
   where
     valid = filter (\xs -> corrupt xs == 0) lines
     scores = sort $ score . fix <$> valid
-    score = \xs -> foldl (\b a -> b * 5 + a) 0 ((+1) . fromJust . (`elemIndex` open) <$> xs)
+    score = \xs -> foldl (\b a -> 5 * b * a) 0 ((+1) . fromJust . (`elemIndex` open) <$> xs)
 
 main :: IO ()
 main = do
