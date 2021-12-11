@@ -69,6 +69,12 @@ solveA grid = go 100 grid 0
       (nextGrid, flashes) <- simulate grid
       go (iter-1) nextGrid (x + flashes)
 
+solveB grid = go 0 grid 0
+  where
+    go iter grid x = do
+      (nextGrid, flashes) <- simulate grid
+      if flashes == 100 then return (iter + 1) else go (iter+1) nextGrid (x + flashes)
+
 createGrid :: [[Int]] -> Grid
 createGrid lines =
   listArray
@@ -92,3 +98,7 @@ main = do
   print ansA
   ansB <- solveA linesB
   print ansB
+  ansC <- solveB linesA
+  print ansC
+  ansD <- solveB linesB
+  print ansD
