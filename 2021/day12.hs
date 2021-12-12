@@ -10,7 +10,7 @@ import           Text.Parsec.Token
 
 
 edgesToAdj :: [(String, String)] -> M.Map String [String]
-edgesToAdj edges = M.fromListWith (++) (fmap (:[]) <$> (edges ++ (swap <$> edges)))
+edgesToAdj edges = M.fromListWith (++) (fmap pure <$> (edges ++ (swap <$> edges)))
 
 solveA :: M.Map String [String] -> Int
 solveA adj = go [("start", S.fromList ["start"])] 0
