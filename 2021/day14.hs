@@ -10,14 +10,12 @@ import Data.Tuple
 type Rules = M.Map (Char, Char) Char
 
 reduceCounts list = M.toList $ M.fromListWith (+) list
-
 freq :: Ord a => [a] -> [(a, Int)]
 freq s = reduceCounts [(x, 1) | x <- s]
 
 maybeInsert :: Rules -> (Char, Char) -> [(Char, Char)]
 maybeInsert ruleMap (x, y) = if (x, y) `M.member` ruleMap then [(x, z), (z, y)] else []
   where z = ruleMap M.! (x, y)
-
 
 step :: Rules -> [((Char, Char), Int)] -> [((Char, Char), Int)]
 step ruleMap pairs = reduceCounts fullList
@@ -37,19 +35,11 @@ toFreqPairs _ = []
 solveA t = solve t 10
 solveB t = solve t 40
 
+parsePair p q = (,) <$> p <*> q
 parseInit = many1 alphaNum <* char '\n'
-parseRule = do
- a <- alphaNum
- b <- alphaNum
- string " -> "
- c <- alphaNum
- return ((a, b), c)
-parseRules = many1 $ parseRule <* char '\n'
-input = do
-  init <- parseInit
-  char '\n'
-  rules <- parseRules
-  return (init, rules)
+parseRule' = parsePair (parsePair alphaNum alphaNum <* string " -> ") alphaNum
+parseRules = many1 $ parseRule' <* char '\n'
+input = parsePair (parseInit <* char '\n') parseRules
 parseInput :: String -> (String, [((Char, Char), Char)])
 parseInput it = case parse input "" it of
   Left _  -> undefined
